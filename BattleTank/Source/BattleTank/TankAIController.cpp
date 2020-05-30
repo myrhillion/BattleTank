@@ -26,6 +26,25 @@ void ATankAIController::BeginPlay()
     }
 }
 
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+    // AimTowardsCrossHair();
+    if (GetPlayerTank())
+    {
+        // move towards player
+
+        // aim towards player
+        GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+        // fire if ready
+    }
+    else 
+    {
+
+    }
+    // AimTowardsCrossHair();
+}
+
 ATank* ATankAIController::GetPlayerTank() const
 {
     auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
@@ -40,5 +59,6 @@ ATank* ATankAIController::GetPlayerTank() const
     }
 
 }
+
     
     
