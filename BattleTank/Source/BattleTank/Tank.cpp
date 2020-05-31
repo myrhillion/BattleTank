@@ -19,7 +19,11 @@ void ATank::BeginPlay()
 	
 }
 
-
+void ATank::Fire()
+{
+	//auto Time = GetWorld()->GetTimeSeconds();
+	UE_LOG(LogTemp, Warning, TEXT("Player has fired."));
+}
 
 // Called to bind functionality to input
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
