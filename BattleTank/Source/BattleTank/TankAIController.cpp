@@ -2,63 +2,64 @@
 
 
 #include "TankAIController.h"
+#include "Engine/World.h"
 #include "Tank.h"
 
-ATank* ATankAIController::GetControlledTank() const
+ATankAIController::ATankAIController()
 {
-    return Cast<ATank>(GetPawn());
+    PrimaryActorTick.bCanEverTick = true;
 }
 
 void ATankAIController::BeginPlay()
 {
     Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("TankAIController Begin Play"));
-
-    GetPlayerTank();
-
-    auto PlayerTank = GetPlayerTank();
-    if (PlayerTank)
+    //ControlledTank = Cast<ATank>(GetPawn());
+    //PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+    /*if (!PlayerTank)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("No Player Tank available."));
+        return;
+    }
+    else
     {
         UE_LOG(LogTemp, Warning, TEXT("%s referenced by AI pawn/tank."), *PlayerTank->GetName());
     }
-    else 
+
+    if (!ControlledTank)
     {
-        UE_LOG(LogTemp, Warning, TEXT("No Player Tank available."));
+        UE_LOG(LogTemp, Warning, TEXT("Assigning Controlled Tank Failed."));
+        return;
     }
+
+    if (!PlayerTank)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Assigning PlayerTank Failed."));
+        return;
+    }
+
+    UE_LOG(LogTemp, Warning, TEXT("TankAIController Begin Play"));*/
 }
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
     // AimTowardsCrossHair();
-    if (GetPlayerTank())
+
+    auto ControlledTank = Cast<ATank>(GetPawn());
+    auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+    if (PlayerTank)
     {
         // move towards player
 
         // aim towards player
-        GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+        ControlledTank->AimAt(PlayerTank->GetActorLocation());
         // fire if ready
+        ControlledTank->Fire();
     }
     else 
     {
-
+        UE_LOG(LogTemp, Warning, TEXT("In Tick: No PlayerTank reference available."));
     }
-    // AimTowardsCrossHair();
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-    auto PlayerPawn = GetWorld()->GetFirstPlayerController()->GetPawn();
-    
-    if (PlayerPawn)
-    {
-        return Cast<ATank>(PlayerPawn);
-    }
-    else
-    {
-        return nullptr;
-    }
-
 }
 
     

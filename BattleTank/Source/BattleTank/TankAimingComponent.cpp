@@ -12,13 +12,21 @@ UTankAimingComponent::UTankAimingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;  
 
+
 	// ...
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
-	if(!BarrelToSet){return;}
-	Barrel = BarrelToSet;
+	if (!BarrelToSet)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent, but no barrel to set. Attempting manual set."));
+		auto Barrel = GetOwner()->FindComponentByClass<UTankBarrel>();
+	}
+	else
+	{
+		Barrel = BarrelToSet;
+	}
 }
 
 void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
@@ -47,7 +55,11 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel){return;}
+	if (!Barrel)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent::AimAt, but no Barrel reference found"));
+		return;
+	}
 	
 	FVector OutLaunchVelocity(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
