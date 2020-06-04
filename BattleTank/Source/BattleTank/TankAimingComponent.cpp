@@ -20,7 +20,7 @@ void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	if (!BarrelToSet)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent, but no barrel to set. Attempting manual set."));
+		// UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent, but no barrel to set. Attempting manual set."));
 		auto Barrel = GetOwner()->FindComponentByClass<UTankBarrel>();
 	}
 	else
@@ -57,7 +57,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	if (!Barrel)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent::AimAt, but no Barrel reference found"));
+		// UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent::AimAt, but no Barrel reference found"));
 		return;
 	}
 	
@@ -91,7 +91,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("%f: No aim solve found"), Time);
+		// UE_LOG(LogTemp, Warning, TEXT("%f: No aim solve found"), Time);
 	}
 	
 }
