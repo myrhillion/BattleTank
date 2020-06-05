@@ -46,8 +46,9 @@ void ATankAIController::Tick(float DeltaTime)
     // AimTowardsCrossHair();
 
     auto ControlledTank = Cast<ATank>(GetPawn());
+
     auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-    if (PlayerTank)
+    if (ensure(PlayerTank))
     {
         // move towards player
         MoveToActor(PlayerTank, AcceptanceRadius); // TODO check radius is in centimeters

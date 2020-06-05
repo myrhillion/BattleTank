@@ -1,9 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Douglas Taggart as part of Unreal C++ Course on GameDev.TV
 
 #include "TankAimingComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankTurret.h"
 #include "TankBarrel.h"
+
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -16,22 +17,10 @@ UTankAimingComponent::UTankAimingComponent()
 	// ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
+void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
-	if (!BarrelToSet)
-	{
-		// UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent, but no barrel to set. Attempting manual set."));
-		auto Barrel = GetOwner()->FindComponentByClass<UTankBarrel>();
-	}
-	else
-	{
-		Barrel = BarrelToSet;
-	}
-}
-
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
-{
-	if(!TurretToSet){return;}
+	// if (!BarrelToSet || !TurretToSet) { return; }
+	Barrel = BarrelToSet;
 	Turret = TurretToSet;
 }
 
@@ -55,7 +44,7 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (!Barrel)
+	if (!ensure(Barrel))
 	{
 		// UE_LOG(LogTemp, Warning, TEXT("In TankAimingComponent::AimAt, but no Barrel reference found"));
 		return;
@@ -100,7 +89,9 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// rotate turret and elevate barrel, x, y, z towards the StartLocation the barrel needs to have to accomodate firing solut
 	// Work out difference between current barrel rotation and aim direction.
-	
+
+	if (!ensure(Barrel && Turret)) { return; }
+
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
