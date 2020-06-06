@@ -90,7 +90,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	// rotate turret and elevate barrel, x, y, z towards the StartLocation the barrel needs to have to accomodate firing solut
 	// Work out difference between current barrel rotation and aim direction.
 
-	if (!ensure(Barrel && Turret)) { return; }
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();

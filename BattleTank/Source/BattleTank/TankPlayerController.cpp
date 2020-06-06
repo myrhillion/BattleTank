@@ -11,34 +11,14 @@
 void ATankPlayerController::BeginPlay()
 {
     Super::BeginPlay();
-    UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
-
-    AActor* OurTank = GetControlledTank();
-    if (OurTank)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("%s pawn captured."), *OurTank->GetName());
-    }
-    else 
-    {
-        UE_LOG(LogTemp, Warning, TEXT("No Controlled Tank available."));
-    }
-
     auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
-    if (ensure(AimingComponent))
-    {
-        FoundAimingComponent(AimingComponent);
-    }
-    else
-    {
-        UE_LOG(LogTemp, Warning, TEXT("PlayerController can't find aiming component at Begin Play"));
-    }
+    if (!ensure(AimingComponent)) { return; }
+    FoundAimingComponent(AimingComponent);
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-    // AimTowardsCrossHair();
-    
     AimTowardsCrossHair();
 }
 
@@ -50,7 +30,6 @@ ATank* ATankPlayerController::GetControlledTank() const
 void ATankPlayerController::AimTowardsCrossHair()
 {
     if (!ensure(GetControlledTank())){return;}
-
 
     FVector HitLocation; // Out Parameter
     if (GetSightRayHitLocation(HitLocation)) // is going to ray-trace later
