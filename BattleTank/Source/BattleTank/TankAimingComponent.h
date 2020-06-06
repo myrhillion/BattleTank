@@ -1,4 +1,4 @@
-// Copyright Douglas Taggart as part of Unreal C++ Course on GameDev.TV
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -18,10 +18,11 @@ enum class EFiringState : uint8
 // Forward Declaration
 class UTankBarrel; 
 class UTankTurret;
+class AProjectile;
 
 // Holds barrel properties and Elevate method
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -31,22 +32,39 @@ public:
 	UTankAimingComponent();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void AimAt(FVector HitLocation, float LaunchSpeed);
+	void AimAt(FVector HitLocation);
+	
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	void Fire();
 	// TODO add SetTurretReference
+
+	//UFUNCTION(BlueprintCallable, Category = "Firing")
+	//void Fire();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;	
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::Aiming;
+	EFiringState FiringState = EFiringState::Reloading;
+
 
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTankTurret* Turret = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Firing")
+	float LaunchSpeed = 4000;
+
 	void MoveBarrelTowards(FVector AimDirection);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	float ReloadTimeInSeconds = 3;
+	double LastFireTime = 0;
 };
