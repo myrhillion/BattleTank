@@ -13,31 +13,6 @@ ATankAIController::ATankAIController()
 void ATankAIController::BeginPlay()
 {
     Super::BeginPlay();
-    //ControlledTank = Cast<ATank>(GetPawn());
-    //PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-    /*if (!PlayerTank)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("No Player Tank available."));
-        return;
-    }
-    else
-    {
-        UE_LOG(LogTemp, Warning, TEXT("%s referenced by AI pawn/tank."), *PlayerTank->GetName());
-    }
-
-    if (!ControlledTank)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Assigning Controlled Tank Failed."));
-        return;
-    }
-
-    if (!PlayerTank)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Assigning PlayerTank Failed."));
-        return;
-    }
-
-    UE_LOG(LogTemp, Warning, TEXT("TankAIController Begin Play"));*/
 }
 
 void ATankAIController::Tick(float DeltaTime)
