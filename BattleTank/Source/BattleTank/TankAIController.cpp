@@ -28,7 +28,7 @@ void ATankAIController::Tick(float DeltaTime)
     
     // move towards player
     MoveToActor(PlayerTank, AcceptanceRadius); // TODO check radius is in centimeters
-    UE_LOG(LogTemp, Warning, TEXT("Move to Actor called."));
+    // UE_LOG(LogTemp, Warning, TEXT("Move to Actor called."));
     // aim towards player
     AimingComponent->AimAt(PlayerTank->GetActorLocation());
     AimingComponent->Fire();

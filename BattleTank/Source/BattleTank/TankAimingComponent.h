@@ -62,9 +62,12 @@ private:
 
 	void MoveBarrelTowards(FVector AimDirection);
 
+	// virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
+	FVector AimDirection = FVector(0);
+	bool IsBarrelMoving();
 	float ReloadTimeInSeconds = 3;
 	double LastFireTime = 0;
 };
