@@ -5,7 +5,11 @@
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet) { return; }
+	/*if (!LeftTrackToSet || !RightTrackToSet) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Missing Left or Right Track references in UTankMovementComponent::Initialise"));
+		return; 
+	}*/
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 
@@ -14,7 +18,11 @@ void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
 	// UE_LOG(LogTemp, Warning, TEXT("Intend move forward throw: %f"), Throw);
-	if (!ensure(LeftTrack && RightTrack)) { return; }
+	if (!ensure(LeftTrack && RightTrack)) 
+	{ 
+		UE_LOG(LogTemp, Warning, TEXT("Missing Left or Right Track references in UTankMovementComponent::IntendMoveForward"));
+		return; 
+	}
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 	
@@ -28,10 +36,9 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto AIForwardIntention = MoveVelocity.GetSafeNormal();
 	auto MoveThrow = FVector::DotProduct(AIForwardIntention, TankForward);
-	
 	auto RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention).Z;
+	
 	IntendTurnRight(RightThrow);
-
 	IntendMoveForward(MoveThrow);
 	// UE_LOG(LogTemp, Warning, TEXT("%s vectoring to %s"), *TankName, *MoveVelocityString);
 }
@@ -39,7 +46,11 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
 	// UE_LOG(LogTemp, Warning, TEXT("Intend Turn Right throw: %f"), Throw);
-	if (!ensure(LeftTrack && RightTrack)) { return; }
+	if (!ensure(LeftTrack && RightTrack)) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Missing Left or Right Track references in UTankMovementComponent::IntendTurnRight"));
+		return; 
+	}
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }

@@ -19,11 +19,7 @@ public:
 	ATankAIController();
 
 private:
-	//ATank* ControlledTank = nullptr;
-	//ATank* PlayerTank = nullptr;
-
 	virtual void BeginPlay() override;
-
 	void Tick(float DeltaTime);
 
 	// How close AI Tank can get to player

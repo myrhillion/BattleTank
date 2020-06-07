@@ -44,13 +44,14 @@ void UTankTrack::ApplySidewaysForce()
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	CurrentThrottle = FMath::Clamp<float>((CurrentThrottle + Throttle), -1, 1);
+	CurrentThrottle = FMath::Clamp<float>((CurrentThrottle + Throttle), -1.f, 1.f);
+	UE_LOG(LogTemp, Warning, TEXT("Set Throttle being called by: %s"), *GetOwner()->GetName());
 }
 
 void UTankTrack::DriveTrack()
 {
 	// auto Time = GetWorld()->GetTimeSeconds();
-
+	UE_LOG(LogTemp, Warning, TEXT("DriveTrack being called by: %s"), *GetOwner()->GetName());
 	// TODO clamp actual throttle value so player can't over-drive
 	auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;
 	auto ForceLocation = GetComponentLocation();
