@@ -5,11 +5,11 @@
 
 void UTankMovementComponent::Initialise(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet)
 {
-	/*if (!LeftTrackToSet || !RightTrackToSet) 
+	if (!LeftTrackToSet || !RightTrackToSet) 
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Missing Left or Right Track references in UTankMovementComponent::Initialise"));
 		return; 
-	}*/
+	}
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 

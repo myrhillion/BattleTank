@@ -151,3 +151,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
