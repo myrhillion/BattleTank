@@ -28,7 +28,11 @@ void UTankAimingComponent::BeginPlay()
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	// UE_LOG(LogTemp, Warning, TEXT("AimComponent Ticking."));
-	if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	if (RoundsOfAmmo <= 0)
+	{
+		FiringState = EFiringState::OutOfAmmo;
+	}
+	else if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		FiringState = EFiringState::Reloading;
 	}
@@ -49,24 +53,37 @@ void UTankAimingComponent::Fire()
 	
 
 	// bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState == EFiringState::Aiming || FiringState == EFiringState::Locked)
 	{
 		// Spawn a projectile at the socket location on barrel
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBlueprint,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile"))
-			);
-		// TODO fix firing
-		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = GetWorld()->GetTimeSeconds();
+
+		// not sure I need this IF with if check moved to Tick.
+		if (RoundsOfAmmo > 0)
+		{
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+				ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile")),
+				Barrel->GetSocketRotation(FName("Projectile"))
+				);
+			// TODO fix firing
+			Projectile->LaunchProjectile(LaunchSpeed);
+			LastFireTime = GetWorld()->GetTimeSeconds();
+			RoundsOfAmmo--;
+			
+		}
+		
 	}
 	else
 	{
 		return;
 	}
+}
+
+int32 UTankAimingComponent::GetRoundsOfAmmo() const
+{
+	return RoundsOfAmmo;
 }
 
 void UTankAimingComponent::Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
