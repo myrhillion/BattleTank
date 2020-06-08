@@ -73,7 +73,12 @@ private:
 
 	FVector AimDirection = FVector(0);
 	bool IsBarrelMoving();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3;
+
 	double LastFireTime = 0;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	int32 RoundsOfAmmo = 3; // TODO reasonable default
 };
