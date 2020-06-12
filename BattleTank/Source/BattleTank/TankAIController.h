@@ -22,8 +22,14 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Setup")
 	float AcceptanceRadius = 7000;
 
+	UFUNCTION()
+		void OnPossessedTankDeath();
+
 private:
 	virtual void BeginPlay() override;
+
+	virtual void SetPawn(APawn* InPawn) override;
+
 	void Tick(float DeltaTime);
 
 	// How close AI Tank can get to player
