@@ -59,6 +59,7 @@ void ASprungWheel::SetupConstraint()
 	MassWheelConstraint->SetConstrainedComponents(BodyRoot, NAME_None, Axle, NAME_None);
 	AxleWheelConstraint->SetConstrainedComponents(Axle, NAME_None, Wheel, NAME_None);
 }
+
 // Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {
